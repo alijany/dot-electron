@@ -2,6 +2,7 @@ const entryPoints = require('../entryPoints')
 
 module.exports = {
   packagerConfig: {
+    // icon: './assets/icon/icon',
     name: 'dot-electron'
   },
   makers: [

@@ -1,4 +1,5 @@
 module.exports = {
+  icon: './assets/icon/icon',
   entry: {
     main: './main/main.ts',
     render: [
