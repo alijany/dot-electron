@@ -1,3 +1,5 @@
+const entryPoints = require('../entryPoints')
+
 module.exports = {
   packagerConfig: {
     name: 'dot-electron'
@@ -21,17 +23,10 @@ module.exports = {
       {
         // port: 3000,
         // loggerPort: 3001
-        mainConfig: './config/webpack.main.config.js',
+        mainConfig: entryPoints.webpack.config.main,
         renderer: {
-          config: './config/webpack.renderer.config.js',
-          entryPoints: [
-            {
-              // preload: { js: './preload.ts' },
-              html: './view/index.html',
-              js: './view/renderer.ts',
-              name: 'main_window'
-            }
-          ]
+          config: entryPoints.webpack.config.render,
+          entryPoints: entryPoints.entry.render
         }
       }
     ]
