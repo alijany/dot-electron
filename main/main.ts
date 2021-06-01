@@ -1,7 +1,7 @@
 import icon from '../assets/icon/icon.png'
 import path from 'path'
+import { app, BrowserWindow } from 'electron'
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
-const { app, BrowserWindow } = require('electron')
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
