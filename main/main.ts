@@ -1,14 +1,17 @@
+import icon from '../assets/icon/icon.png'
+import path from 'path'
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 const { app, BrowserWindow } = require('electron')
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
+if (require('electron-squirrel-startup')) {
   app.quit()
 }
 
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    icon: path.resolve(__dirname, icon),
     width: 800,
     height: 600
   })
