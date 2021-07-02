@@ -1,4 +1,3 @@
-import { app } from "electron";
 import { Container, Scope } from "typescript-ioc";
 import ServiceProvider from "../contract/ServiceProvider";
 import WindowManager from "../contract/services/window";
@@ -15,7 +14,7 @@ export default class $WindowProvider extends ServiceProvider {
 
     register() {
         Container.bind(WindowManager).factory(WindowManagerFactory)
-            .scope(Scope.Singleton);;
+            .scope(Scope.Singleton);
     };
 
     boot() {
