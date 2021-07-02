@@ -4,7 +4,7 @@ module.exports = {
     main: './main/main.ts',
     render: [
       {
-      // preload: { js: './renderer/preload.ts' },
+      preload: { js: './renderer/preload.ts' },
         html: './renderer/index.html',
         js: './renderer/renderer.ts',
         name: 'main_window'
