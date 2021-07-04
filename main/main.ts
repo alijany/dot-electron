@@ -3,6 +3,8 @@ import App from './contract/App';
 import Channel from './contract/Channel';
 import Controller from './contract/Controller';
 import Router from './contract/Router';
+import FileSource from './contract/utilities/FileSource';
+import JsonFileSourceDecorator from './contract/utilities/JsonFileSourceDecorator';
 import './ioc';
 
 Container.get(App);
@@ -14,3 +16,19 @@ const channel = Container.get(Channel);
 channel.setName("default")
 channel.setRouter(router);
 channel.register();
+
+
+
+
+const fileSource = Container.get(FileSource);
+fileSource.setPath('./test.txt')
+
+const jsonFile =  Container.get(JsonFileSourceDecorator);
+jsonFile.setDataSource(fileSource);
+
+async function test(){
+    await jsonFile.write({x:"hello"})
+    console.log((await jsonFile.read()).x);
+}
+
+test();

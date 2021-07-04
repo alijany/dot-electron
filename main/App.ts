@@ -2,6 +2,8 @@ import { app } from "electron";
 import App from "./contract/App";
 import $ChannelProvider from "./providers/Channel";
 import $ControllerProvider from "./providers/Controller";
+import $FileSourceProvider from "./providers/FileSource";
+import $JsonFileSourceProvider from "./providers/JsonFileSource";
 import $RouteProvider from "./providers/Route";
 import $RouterProvider from "./providers/Router";
 import $WindowProvider from "./providers/window";
@@ -13,11 +15,15 @@ export default class $App extends App {
     
     // TODO use ioc multi resolve
     protected providers = [
+        // main
         new $WindowProvider(),
         new $ControllerProvider(),
         new $RouteProvider(),
         new $RouterProvider(),
-        new $ChannelProvider()
+        new $ChannelProvider(),
+        // oder
+        new $FileSourceProvider(),
+        new $JsonFileSourceProvider(),
     ];
 
 
