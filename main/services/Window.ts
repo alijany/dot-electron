@@ -1,41 +1,51 @@
 import { app, BrowserWindow } from 'electron';
+import { WebPreferences } from 'electron/main';
 import path from 'path';
 import icon from '../../assets/icon/icon.png';
-import WindowManager, { BrowserConfig, Config } from '../contract/services/window';
+import WindowManager, { Config } from '../contract/window';
 
 export default class $WindowManager extends WindowManager {
-  protected browserWindow!: Electron.BrowserWindow;
+  protected browserWindow!: BrowserWindow;
 
-  protected browserConfig = {
-    devTools: false,
+  protected webPreferences = {
+    devTools: true,
     nodeIntegration: false,
     contextIsolation: true,
     enableRemoteModule: false,
-    preloadEntry: "",
-  }
+    preload: "",
+  };
 
   protected config = {
-    menuBar: false,
-    devtools: false,
+    menuBar: true,
     maximize: true,
     entry: ""
   }
 
   constructor(
     config: Partial<Config> = {},
-    browserConfig: Partial<BrowserConfig> = {}
+    browserConfig: Partial<WebPreferences> = {}
   ) {
-    super(config, browserConfig);   
+    super();
+    this.mergeConfig(config, browserConfig);
     this.createWindow();
     this.loadWindow();
     this.registerHandlers();
+  }
+
+
+  private mergeConfig(
+    config: Partial<Config>,
+    webPreferences: WebPreferences
+  ) {
+    this.config = { ...this.config, ...config };
+    this.webPreferences = { ...this.webPreferences, ...webPreferences };
   }
 
   createWindow() {
     this.browserWindow = new BrowserWindow({
       icon: path.resolve(__dirname, icon),
       webPreferences: {
-        ...this.browserConfig
+        ...this.webPreferences
       }
     })
   }
@@ -45,7 +55,7 @@ export default class $WindowManager extends WindowManager {
     this.browserWindow.menuBarVisible = this.config.menuBar;
     if (this.config.maximize)
       this.browserWindow.maximize();
-    if (this.config.devtools)
+    if (this.webPreferences.devTools)
       this.browserWindow.webContents.openDevTools()
   }
 
