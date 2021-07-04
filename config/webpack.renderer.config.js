@@ -6,9 +6,12 @@ rules.push({
 })
 
 module.exports = {
-  target: 'electron-renderer',
+  target: 'web',
   // Put your normal webpack config below here
   module: {
     rules
+  },
+    resolve: {
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json']
   }
 }
