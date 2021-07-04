@@ -1,9 +1,9 @@
 import { PathLike, promises as fs } from "fs";
-import DataSource from "../contract/utilities/DataSource";
+import FileSource from "../contract/utilities/FileSource";
 
 
 
-export default class $FileSource extends DataSource<Promise<Buffer>, string | Buffer> {
+export default class $FileSource extends FileSource {
 
     private path?: PathLike;
 

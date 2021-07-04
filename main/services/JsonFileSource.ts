@@ -1,9 +1,9 @@
 import DataSource from "../contract/utilities/DataSource";
-import DataSourceDecorator from "../contract/utilities/DataSourceDecorator";
+import JsonFileSourceDecorator from "../contract/utilities/JsonFileSourceDecorator";
 
 
 
-export default class $JsonFileSource extends DataSourceDecorator<Promise<any>, any> {
+export default class $JsonFileSource extends JsonFileSourceDecorator {
 
     private dataSource?: DataSource<Promise<Buffer>, string>;
 
