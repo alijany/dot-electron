@@ -1,3 +1,8 @@
+import { Request } from '../shared/request';
 import './index.css'
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack')
+import { Channel } from './scripts/Channel';
+declare const channel: Channel<Request>;
+channel.send({ type: 'add', data: {} }, (event, response) => {
+    console.log(response);
+});
