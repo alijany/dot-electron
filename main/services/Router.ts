@@ -11,15 +11,19 @@ export default class $Router<Req, Res> extends Router<Req, Res> {
 
     protected routes: Route<Req, Res>[] = [];
 
-    
+
     public setMiddleware(middleware: Middleware<Req>) {
         this.middleware = middleware
     }
 
 
     // addRoute Overloads 
-    addRoute(action: CallableFunction): void;
-    addRoute(controller: Controller<Res>, method?: string, params?: any[]): void;
+    addRoute(action: CallableFunction): Route<Req, Res>;
+    addRoute(
+        controller: Controller<Res>,
+        method?: string,
+        params?: any[]
+    ): Route<Req, Res>;
     // addRoute implementation 
     public addRoute(
         action: CallableFunction | Controller<Res>,
@@ -33,12 +37,14 @@ export default class $Router<Req, Res> extends Router<Req, Res> {
         else
             routeAction = action;
 
-        this.routes.push(this.createRoute(routeAction));
+        const route = this.createRoute(routeAction)
+        this.routes.push(route);
+        return route
     };
 
 
     protected createRoute(action: CallableFunction): Route<Req, Res> {
-        const route = Container.get(Route); // TODO pipe 
+        const route = Container.get(Route);
         route.setAction(action);
         return route;
     }
@@ -56,15 +62,14 @@ export default class $Router<Req, Res> extends Router<Req, Res> {
     };
 
 
-    // TODO async support
-    public dispatch(request: Req) {
+    public async dispatch(request: Req) {
         if (this.middleware)
             request = this.middleware.handle(request);
 
         const route = this.findRoute(request);
 
         if (route) {
-            return route.run(request);
+            return await route.run(request);
         } else {
             throw Error("no route found for the given request")
         }

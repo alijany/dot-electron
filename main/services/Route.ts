@@ -1,7 +1,7 @@
 import Middleware from "../contract/Middleware";
 import Route from "../contract/Route";
 
-type ActionType<Res> = (...params: any[]) => Res;
+type ActionType<Res> = (...params: any[]) => Res | Promise<Res>;
 
 export default class $Route<Req, Res> extends Route<Req, Res> {
 
@@ -20,20 +20,25 @@ export default class $Route<Req, Res> extends Route<Req, Res> {
     }
 
 
-    public run(request: Req) {
+    public async run(request: Req) {
         if (this.middleware)
             request = this.middleware.handle(request);
 
         if (this.action)
-            return this.action();
+            return await this.action();
         else {
             throw Error("no action specified for route")
         }
     };
 
 
-    public matches() {
+    public matches(request: Req) {
         return true;
     };
+
+
+    public setMatches(matches: (request: Req) => boolean) {
+        this.matches = matches
+    }
 
 }
