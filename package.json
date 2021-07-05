@@ -50,6 +50,7 @@
     "@types/reflect-metadata": "^0.1.0",
     "electron-squirrel-startup": "^1.0.0",
     "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.34",
     "typescript-ioc": "^3.2.2"
   }
 }
