@@ -6,13 +6,16 @@ import $FileSourceProvider from "./providers/FileSource";
 import $JsonFileSourceProvider from "./providers/JsonFileSource";
 import $RouteProvider from "./providers/Route";
 import $RouterProvider from "./providers/Router";
+import $TypeOrmConnectionProvider from "./providers/TypeOrm";
 import $WindowProvider from "./providers/window";
 
 export default class $App extends App {
 
     protected isBootstrapped = false;
 
-    
+    protected onReadyCallback?: CallableFunction;
+
+
     // TODO use ioc multi resolve
     protected providers = [
         // main
@@ -24,18 +27,30 @@ export default class $App extends App {
         // oder
         new $FileSourceProvider(),
         new $JsonFileSourceProvider(),
+        new $TypeOrmConnectionProvider()
     ];
 
+    
+    public onReady(callback: CallableFunction) {
+        this.onReadyCallback = callback;
+    }
 
-    constructor() {
-        super();
-        this.prepare();
-        this.registerProviders();
+
+    private async onElectronReady() {
+        await this.bootServiceProviders();
+        if (this.onReadyCallback)
+            this.onReadyCallback()
+    }
+
+
+    public async boot() {
+        await this.prepare();
+        await this.registerProviders();
 
         if (app.isReady())
-            this.bootServiceProviders();
+            this.onElectronReady();
         else
-            app.on('ready', () => this.bootServiceProviders())
+            app.on('ready', () => this.onElectronReady);
     }
 
 
@@ -52,17 +67,17 @@ export default class $App extends App {
     }
 
 
-    protected registerProviders() {
-        this.providers.forEach(provider => {
-            provider.register();
-        });
+    protected async registerProviders() {
+        for (const provider of this.providers) {
+            await provider.register();
+        }
     };
 
 
-    protected bootServiceProviders() {
-        this.providers.forEach(provider => {
-            provider.boot();
-        });
+    protected async bootServiceProviders() {
+        for (const provider of this.providers) {
+            await provider.boot();
+        };
         this.isBootstrapped = true;
     };
 }
