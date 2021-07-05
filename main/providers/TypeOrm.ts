@@ -18,7 +18,7 @@ export default class $TypeOrmConnectionProvider extends ServiceProvider {
             database: "electron",
             entities: [
                 $Privilege,
-                $User
+                $User // TODO use container
             ],
             synchronize: true,
             logging: false
