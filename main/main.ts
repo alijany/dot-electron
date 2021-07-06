@@ -15,7 +15,11 @@ const app = Container.get(App);
 app.onReady(async () => {
     const controller = Container.get(Controller);
     const router = Container.get(Router);
-    const route = router.addRoute(controller, "asyncInvoke", ["body"]);
+    const route = router.addRoute({
+        controller,
+        method: "asyncInvoke",
+        params: ["body"]
+    });
     route.setMatches(request => request.type === "add");
     const channel = Container.get(Channel);
     channel.setName("default")
