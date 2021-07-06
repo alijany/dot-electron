@@ -1,7 +1,10 @@
-export default abstract class Controller<Response> {
-    protected abstract invoke(...params: any[]): Response | Promise<Response>;
+export default abstract class Controller {
+
+    protected abstract invoke(...params: any[]): any | Promise<any>;
+
     public abstract callAction(
         method?: string,
-        params?: any[]
-    ): Promise<Response>;
+        params?: any
+    ): Promise<any>;
+    
 }
