@@ -4,7 +4,8 @@ import { Response } from "../../shared/response";
 import AuthenticateController from "../contract/Auth/AuthenticateController";
 import { Authenticate } from "../contract/Auth/Authenticate";
 
-type Action<Response> = (request: AuthRequest) => Response | Promise<Response>
+type Action<Request, Response> =
+    (request: Request, ...params: any[]) => Response | Promise<Response>
 
 export default class $AuthenticateController
     extends AuthenticateController<AuthRequest, Response> {
@@ -32,7 +33,7 @@ export default class $AuthenticateController
     async login(request: AuthRequest) {
         if (request.type !== "login")
             throw new Error("wrong request type");
-        const {username,password} = request.payload;
+        const { username, password } = request.payload;
         await this.authenticate.login(username, password);
         return {
             type: "login-success",
@@ -41,13 +42,13 @@ export default class $AuthenticateController
     }
 
 
-    private actionMap: { [K: string]: Action<Response> } = {
+    private actionMap: { [K: string]: Action<AuthRequest, Response> } = {
         registration: this.registration,
         login: this.login
     };
 
 
-    public async callAction(method: string, request: AuthRequest) {
+    public async callAction(request: AuthRequest, method: string) {
         if (!method)
             return await this.invoke();
 

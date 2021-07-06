@@ -1,7 +1,6 @@
 import { Container } from "typescript-ioc";
-import Controller from "../contract/Controller";
 import Middleware from "../contract/Middleware";
-import Route from "../contract/Route";
+import Route, { RouteAction } from "../contract/Route";
 import Router, { RouteConfig } from "../contract/Router";
 
 export default class $Router<Req, Res> extends Router<Req, Res> {
@@ -17,23 +16,25 @@ export default class $Router<Req, Res> extends Router<Req, Res> {
     }
 
 
-    public addRoute({ callback, controller, method, params }: RouteConfig) {
-        let routeAction: CallableFunction;
+    public addRoute(
+        { callback, controller, method, params = [] }: RouteConfig<Req, Res>
+    ) {
+        let action: RouteAction<Req, Res>;
 
         if (controller)
-            routeAction = () => controller.callAction(method, params)
+            action = req => controller.callAction(req, method, ...params);
         else if (callback)
-            routeAction = callback;
+            action = req => callback(req, ...params);
         else
             throw new Error("one of the callback or controller must be specified");
 
-        const route = this.createRoute(routeAction)
+        const route = this.createRoute(action)
         this.routes.push(route);
         return route
     };
 
 
-    protected createRoute(action: CallableFunction): Route<Req, Res> {
+    protected createRoute(action: RouteAction<Req, Res>): Route<Req, Res> {
         const route = Container.get(Route);
         route.setAction(action);
         return route;

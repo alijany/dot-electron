@@ -1,8 +1,8 @@
 import Controller from "./Controller";
-import Route from "./Route";
+import Route, { RouteAction } from "./Route";
 
-export type RouteConfig  = {
-    callback?: CallableFunction,
+export type RouteConfig<Req, Res> = {
+    callback?: RouteAction<Req, Res>,
     controller?: Controller,
     method?: string,
     params?: any[]
@@ -10,7 +10,9 @@ export type RouteConfig  = {
 
 export default abstract class Router<Request, Response> {
 
-    public abstract addRoute(config: RouteConfig): Route<Request, Response>;
+    public abstract addRoute(
+        config: RouteConfig<Request, Response>
+    ): Route<Request, Response>;
 
     public abstract dispatch(request: Request): Promise<Response>;
 

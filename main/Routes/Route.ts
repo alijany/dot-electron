@@ -1,7 +1,7 @@
 import Middleware from "../contract/Middleware";
-import Route from "../contract/Route";
+import Route, { RouteAction } from "../contract/Route";
 
-type ActionType<Res> = (...params: any[]) => Res | Promise<Res>;
+
 
 export default class $Route<Req, Res> extends Route<Req, Res> {
 
@@ -9,13 +9,13 @@ export default class $Route<Req, Res> extends Route<Req, Res> {
         super();
     }
 
-    protected action?: ActionType<Res>;
+    protected action?: RouteAction<Req, Res>;
 
 
     protected middleware?: Middleware<Req>;
 
 
-    public setAction(action: ActionType<Res>): void {
+    public setAction(action: RouteAction<Req,Res>): void {
         this.action = action;
     }
 
@@ -25,13 +25,14 @@ export default class $Route<Req, Res> extends Route<Req, Res> {
             request = this.middleware.handle(request);
 
         if (this.action)
-            return await this.action();
+            return await this.action(request);
         else {
             throw Error("no action specified for route")
         }
     };
 
 
+    // TODO rename
     public matches(request: Req) {
         return true;
     };
