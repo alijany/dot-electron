@@ -1,9 +1,12 @@
 import { app } from "electron";
 import App from "./contract/App";
+import $AuthenticateProvider from "./providers/Authenticate";
+import $AuthenticateControllerProvider from "./providers/AuthenticateController";
 import $ChannelProvider from "./providers/Channel";
 import $ControllerProvider from "./providers/Controller";
 import $FileSourceProvider from "./providers/FileSource";
 import $JsonFileSourceProvider from "./providers/JsonFileSource";
+import $PasswordHashProvider from "./providers/PasswordHash";
 import $RouteProvider from "./providers/Route";
 import $RouterProvider from "./providers/Router";
 import $TypeOrmConnectionProvider from "./providers/TypeOrm";
@@ -24,10 +27,15 @@ export default class $App extends App {
         new $RouteProvider(),
         new $RouterProvider(),
         new $ChannelProvider(),
+        // ORM
+        new $TypeOrmConnectionProvider(),
+        // auth
+        new $PasswordHashProvider(),
+        new $AuthenticateProvider(),
+        new $AuthenticateControllerProvider(),
         // oder
         new $FileSourceProvider(),
         new $JsonFileSourceProvider(),
-        new $TypeOrmConnectionProvider()
     ];
 
     
