@@ -7,22 +7,22 @@ export interface Request {
 /* -------------------------------------------------------------------------- */
 /*                                    Auth                                    */
 /* -------------------------------------------------------------------------- */
-// export interface registerRequest extends IpcRequest {
-//     method: "register";
-//     payload: {
-//         firstName: string;
-//         lastName: string;
-//         username: string;
-//         password: string;
-//     }
-// }
+export interface registerRequest extends Request {
+    method: "register";
+    payload: {
+        firstName: string;
+        lastName: string;
+        username: string;
+        password: string;
+    }
+}
 
-// export interface loginRequest extends IpcRequest {
-//     method: "login";
-//     payload: {
-//         username: string;
-//         password: string
-//     }
-// }
+export interface loginRequest extends Request {
+    method: "login";
+    payload: {
+        username: string;
+        password: string;
+    }
+}
 
-// export type AuthRequest = registerRequest | loginRequest;
+export type AuthRequest = registerRequest | loginRequest;
