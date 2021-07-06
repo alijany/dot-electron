@@ -1,7 +1,6 @@
 import ServiceProvider from "./ServiceProvider";
 
 export default abstract class App {
-    protected abstract isBootstrapped: boolean;
     // array of service providers
     protected abstract providers: ServiceProvider[];
     // bootstrap app

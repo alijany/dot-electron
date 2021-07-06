@@ -3,7 +3,7 @@ import Controller from "../contract/Controller";
 
 type Action<Response> = (...params: any[]) => Response | Promise<Response>
 
-export default class $Controller extends Controller<Response> {
+export default class $Controller extends Controller {
 
     protected invoke(...params: any[]) {
         return {
