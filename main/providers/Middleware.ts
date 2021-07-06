@@ -2,7 +2,7 @@ import { Container } from "typescript-ioc";
 import { Request } from "../../shared/request";
 import Middleware from "../contract/Middleware";
 import ServiceProvider from "../contract/ServiceProvider";
-import $Middleware from "../services/Middleware";
+import $Middleware from "../Middleware/Middleware";
 
 function MiddlewareFactory() {
     return new $Middleware<Request>()

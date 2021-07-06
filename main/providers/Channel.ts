@@ -3,7 +3,7 @@ import { Request } from "../../shared/request";
 import { Response } from "../../shared/response";
 import Channel from "../contract/Channel";
 import ServiceProvider from "../contract/ServiceProvider";
-import { $Channel } from "../services/Channel";
+import { $Channel } from "../channels/Channel";
 
 function ChannelFactory() {
     return new $Channel<Request,Response>();

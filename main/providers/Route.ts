@@ -3,7 +3,7 @@ import { Request } from "../../shared/request";
 import { Response } from "../../shared/response";
 import Route from "../contract/Route";
 import ServiceProvider from "../contract/ServiceProvider";
-import $Route from "../services/Route";
+import $Route from "../Routes/Route";
 
 function RouteFactory() {
     return new $Route<Request, Response>()
