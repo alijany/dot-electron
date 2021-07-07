@@ -6,7 +6,7 @@ export default abstract class Guard {
     abstract check(user: User): boolean;
 
     // Get the currently authenticated users.
-    abstract users(): User[];
+    abstract getUsers(): User[];
 
     // add to authenticated users.
     abstract addUser(user: User): void;

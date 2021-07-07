@@ -3,7 +3,7 @@ import Gate from "../contract/Auth/Gate";
 import ServiceProvider from "../contract/ServiceProvider";
 import $Gate from "../services/Gate";
 
-export default class $ControllerProvider extends ServiceProvider {
+export default class $GateProvider extends ServiceProvider {
 
     register() {
         Container.bind(Gate).to($Gate);
