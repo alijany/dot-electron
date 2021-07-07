@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, getRepository, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import User from "../contract/model/User";
 import $Privilege from "./Privilege";
 
@@ -32,6 +32,12 @@ export default class $User extends User {
             privilege.name == $privilege.name
         )
         return Boolean(can)
+    }
+
+    async getPrivileges() {
+        const thisUser = await getRepository($User)
+            .findOne(this.id, { relations: ['privileges'] })
+        return this.privileges = thisUser?.privileges
     }
 
     getToken(): Promise<string> {
