@@ -44,11 +44,11 @@
     "typescript": "^4.3.2"
   },
   "dependencies": {
-    "@types/mysql": "^2.15.18",
     "@types/copy-webpack-plugin": "^8.0.0",
     "@types/file-loader": "^5.0.0",
-    "@types/typescript": "^2.0.0",
+    "@types/mysql": "^2.15.18",
     "@types/reflect-metadata": "^0.1.0",
+    "@types/typescript": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",

@@ -34,7 +34,7 @@ export default class $Controller extends Controller {
             return await this.invoke(request, ...params);
 
         if (this.actionMap[method])
-            return await this.actionMap[method](request, ...params);
+            return await this.actionMap[method].call(this, request, ...params);
         else
             throw Error("there is no method by this name at Controller actionMap")
     }
