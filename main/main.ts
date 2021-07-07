@@ -1,6 +1,7 @@
 import { getManager } from 'typeorm';
 import { Container } from 'typescript-ioc';
 import App from './contract/App';
+import AuthenticateController from './contract/Auth/AuthenticateController';
 import Channel from './contract/Channel';
 import Controller from './contract/Controller';
 import Router from './contract/Router';
@@ -25,6 +26,24 @@ app.onReady(async () => {
     channel.setName("default")
     channel.setRouter(router);
     channel.register();
+
+    const authenticateController = Container.get(AuthenticateController);
+    const authRouter = Container.get(Router);
+    const loginRoute = authRouter.addRoute({
+        controller:authenticateController,
+        method: "login",
+    });
+    loginRoute.setMatches(request => request.type === "login");
+    const registerRoute = authRouter.addRoute({
+        controller:authenticateController,
+        method: "register",
+    });
+    registerRoute.setMatches(request => request.type === "register");
+    const authChannel = Container.get(Channel);
+    authChannel.setName("auth")
+    authChannel.setRouter(authRouter);
+    authChannel.register();
+
 
     const fileSource = Container.get(FileSource);
     fileSource.setPath('./test.txt')

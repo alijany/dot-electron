@@ -8,8 +8,8 @@ export interface Request {
 /*                                    Auth                                    */
 /* -------------------------------------------------------------------------- */
 export interface registerRequest extends Request {
-    method: "register";
-    payload: {
+    type: "register";
+    data: {
         firstName: string;
         lastName: string;
         username: string;
@@ -18,8 +18,8 @@ export interface registerRequest extends Request {
 }
 
 export interface loginRequest extends Request {
-    method: "login";
-    payload: {
+    type: "login";
+    data: {
         username: string;
         password: string;
     }

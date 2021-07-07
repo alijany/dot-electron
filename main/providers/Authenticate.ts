@@ -1,5 +1,5 @@
 import { Container } from "typescript-ioc";
-import { Authenticate } from "../contract/Auth/Authenticate";
+import Authenticate from "../contract/Auth/Authenticate";
 import ServiceProvider from "../contract/ServiceProvider";
 import { $Authenticate } from "../services/Authenticate";
 

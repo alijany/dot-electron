@@ -1,8 +1,10 @@
 import { getManager } from "typeorm";
 import { Inject } from "typescript-ioc";
-import { Authenticate } from "../contract/Auth/Authenticate";
-import User from "../contract/model/User";
+import { registerRequest } from "../../shared/request";
+import Authenticate from "../contract/Auth/Authenticate";
 import PasswordHash from "../contract/utilities/PasswordHash";
+import $User from "../Entities/User";
+
 
 export class $Authenticate extends Authenticate {
 
@@ -11,7 +13,7 @@ export class $Authenticate extends Authenticate {
 
 
     public async login(username: string, password: string) {
-        const user = await getManager().findOne(User, { username: username });
+        const user = await getManager().findOne($User, { username: username });
         if (!user)
             throw new Error("user not found");
 
@@ -23,14 +25,15 @@ export class $Authenticate extends Authenticate {
     }
 
 
-    public async register(user: User) {
-        if (await getManager().findOne(User, { username: user.username }))
+    public async register(user: registerRequest["data"]) {
+        const manager = getManager();
+        if (await manager.findOne($User, { username: user.username }))
             throw new Error("username already exist");
 
         let hash = await this.passwordHash.hash(user.password);
         user.password = hash;
 
-        await user.save();
+        await manager.insert($User, user);
     }
 
 }

@@ -1,8 +1,9 @@
-import { Inject } from "typescript-ioc";
+import { Container, Inject } from "typescript-ioc";
 import { AuthRequest } from "../../shared/request";
 import { Response } from "../../shared/response";
+import Authenticate from "../contract/Auth/Authenticate";
 import AuthenticateController from "../contract/Auth/AuthenticateController";
-import { Authenticate } from "../contract/Auth/Authenticate";
+import $User from "../Entities/User";
 
 type Action<Request, Response> =
     (request: Request, ...params: any[]) => Response | Promise<Response>
@@ -10,19 +11,16 @@ type Action<Request, Response> =
 export default class $AuthenticateController
     extends AuthenticateController<AuthRequest, Response> {
 
-    @Inject
-    authenticate!: Authenticate;
-
-
     protected invoke(): never {
         throw new Error("Method not implemented.");
     }
 
 
-    async registration(request: AuthRequest) {
-        if (request.type !== "login")
+    async register(request: AuthRequest) {      
+        if (request.type !== "register")
             throw new Error("wrong request type");
-        await this.authenticate.register(request.payload);
+        const authenticate = Container.get(Authenticate);
+        await authenticate.register(request.data);
         return {
             type: "login-success",
             data: {}
@@ -33,8 +31,8 @@ export default class $AuthenticateController
     async login(request: AuthRequest) {
         if (request.type !== "login")
             throw new Error("wrong request type");
-        const { username, password } = request.payload;
-        await this.authenticate.login(username, password);
+        const { username, password } = request.data;
+        // await this.authenticate.login(username, password);
         return {
             type: "login-success",
             data: {}
@@ -43,7 +41,7 @@ export default class $AuthenticateController
 
 
     private actionMap: { [K: string]: Action<AuthRequest, Response> } = {
-        registration: this.registration,
+        register: this.register,
         login: this.login
     };
 
