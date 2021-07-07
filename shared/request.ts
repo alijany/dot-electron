@@ -1,5 +1,6 @@
 export interface Request {
     responseChannel?: string;
+    token?: string;
     type: string;
     data: any;
 }
@@ -27,8 +28,9 @@ export interface loginRequest extends Request {
 
 export interface logoutRequest extends Request {
     type: "logout";
+    token: string;
     data: {
-        // token: string;
+        token: string;
     }
 }
 
