@@ -33,7 +33,9 @@ export class $Authenticate extends Authenticate {
         let hash = await this.passwordHash.hash(user.password);
         user.password = hash;
 
-        await manager.insert($User, user);
+        const $user = await manager.create($User, user);
+        $user.save();
+        return $user;
     }
 
 }

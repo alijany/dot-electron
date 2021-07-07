@@ -25,4 +25,11 @@ export interface loginRequest extends Request {
     }
 }
 
-export type AuthRequest = registerRequest | loginRequest;
+export interface logoutRequest extends Request {
+    type: "logout";
+    data: {
+        // token: string;
+    }
+}
+
+export type AuthRequest = registerRequest | loginRequest | logoutRequest;

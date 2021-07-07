@@ -6,5 +6,5 @@ export default abstract class Authenticate {
 
     public abstract login(username: string, password: string): Promise<User>;
 
-    public abstract register(user: registerRequest["data"]): void;
+    public abstract register(user: registerRequest["data"]): Promise<User>;
 }
