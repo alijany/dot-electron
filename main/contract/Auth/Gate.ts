@@ -1,16 +1,17 @@
 import Privilege from "../../Entities/Privilege";
+import User from "../model/User";
 
-interface Gate {
-    
+export default abstract class Gate {
+
     // Determine if a given ability has been defined.
-    has(privilege: Privilege): Promise<boolean>;
+    abstract has(privilege: Privilege): boolean;
 
     // Define a new privilege.
-    define(privilege: Privilege): Promise<void>;
+    abstract define(privilege: Privilege): void;
 
-    // Determine if the given privilege should be granted for the current user.
-    authorize(privilege: Privilege, ...params: any[]): Promise<boolean>;
+    // Determine if the given privilege should be granted for user.
+    abstract authorize(privilege: User, ...params: any[]): Promise<boolean>;
 
     // Get all of the defined privileges.
-    privileges(): Privilege[];
+    abstract getPrivileges(): Privilege[];
 }
