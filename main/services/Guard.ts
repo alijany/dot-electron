@@ -1,29 +1,31 @@
+import { Inject } from "typescript-ioc";
 import Guard from "../contract/Auth/Guard";
 import User from "../contract/model/User";
+import UsersSession from "../contract/UsersSession";
 
 export default class $Guard extends Guard {
 
-    private users: User[] = []
+    @Inject
+    session!: UsersSession;
 
 
-    check(user: User) {
-        return Boolean(this.users.find($user => $user.id === user.id))
+    exist(token: string) {
+        return this.session.has(token)
     }
 
 
     getUsers(): User[] {
-        return this.users
+        return Object.values(this.session.all())
     }
 
 
-    addUser(user: User): void {
-        if (!this.check(user))
-            this.users.push(user)
+    addUser(user: User) {
+        return this.session.add(user)
     }
 
 
-    removeUser(user: User): void {
-        this.users = this.users.filter($user => $user.id !== user.id)
+    removeUser(token: string) {
+        this.session.remove(token)
     }
 
 }
