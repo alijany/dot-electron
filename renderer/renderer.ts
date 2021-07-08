@@ -42,8 +42,6 @@ const test = async () => {
     [e, res] = await authChannel.sendAsync(logout);
     console.log(res);
 
-    debugger;
-
     [e, res] = await channel.sendAsync(request);
     console.log(res);
 }
