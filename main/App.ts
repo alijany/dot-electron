@@ -5,6 +5,8 @@ import $AuthenticateControllerProvider from "./providers/AuthenticateController"
 import $ChannelProvider from "./providers/Channel";
 import $ControllerProvider from "./providers/Controller";
 import $FileSourceProvider from "./providers/FileSource";
+import $GateProvider from "./providers/Gate";
+import $GateMiddlewareProvider from "./providers/GateMiddleware";
 import $GuardProvider from "./providers/Guard";
 import $GuardMiddlewareProvider from "./providers/GuardMiddleware";
 import $JsonFileSourceProvider from "./providers/JsonFileSource";
@@ -36,6 +38,10 @@ export default class $App extends App {
         new $UsersSessionProvider,
         new $GuardProvider(),
         new $GuardMiddlewareProvider(),
+
+        new $GateProvider(),
+        new $GateMiddlewareProvider(),
+        
         new $PasswordHashProvider(),
         new $AuthenticateProvider(),
         new $AuthenticateControllerProvider(),
