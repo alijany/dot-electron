@@ -3,7 +3,7 @@ import { AuthRequest } from "../../shared/request";
 import { Response } from "../../shared/response";
 import Authenticate from "../contract/Auth/Authenticate";
 import AuthenticateController from "../contract/Auth/AuthenticateController";
-import User from "../contract/model/User";
+import Guard from "../contract/Auth/Guard";
 
 type Action<Request, Response> =
     (request: Request, ...params: any[]) => Response | Promise<Response>
@@ -14,12 +14,8 @@ export default class $AuthenticateController
     @Inject
     authenticate!: Authenticate;
 
-    private user?: User;
-
-
-    getUser() {
-        return this.user;
-    }
+    @Inject
+    guard!: Guard;
 
 
     protected invoke(): never {
@@ -30,11 +26,11 @@ export default class $AuthenticateController
     async register(request: AuthRequest) {
         if (request.type !== "register")
             throw new Error("wrong request type");
-
-        this.user = await this.authenticate.register(request.data);
+        const user = await this.authenticate.register(request.data);
+        const token = this.guard.addUser(user);
         return {
             type: "register-done",
-            data: {}
+            data: { token }
         }
     }
 
@@ -43,18 +39,16 @@ export default class $AuthenticateController
         if (request.type !== "login")
             throw new Error("wrong request type");
         const { username, password } = request.data;
-        this.user = await this.authenticate.login(username, password);
+        const user = await this.authenticate.login(username, password);
+        const token = this.guard.addUser(user);
         return {
             type: "login-done",
-            data: {}
+            data: { token }
         }
     }
 
     async logout(request: AuthRequest) {
-        if (request.type !== "logout")
-            throw new Error("wrong request type");
-        // TODO use token
-        this.user = undefined;
+        this.guard.removeUser(request.token!)
         return {
             type: "logout-done",
             data: {}
@@ -64,7 +58,8 @@ export default class $AuthenticateController
 
     private actionMap: { [K: string]: Action<AuthRequest, Response> } = {
         register: this.register,
-        login: this.login
+        login: this.login,
+        logout: this.logout
     };
 
 
