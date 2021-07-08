@@ -12,6 +12,7 @@ export default class $GuardMiddleware extends GuardMiddleware {
 
     protected nextMiddleware?: Middleware<Request>;
 
+
     public setGuard(guard: Guard) {
         this.guard = guard;
     }
@@ -19,9 +20,8 @@ export default class $GuardMiddleware extends GuardMiddleware {
 
     protected action = (request: Request) => {
         const { token } = request;
-        if (!token) throw Error("user is not authenticated");
-        if (!this.guard.exist(token)) throw new Error("Invalid Session ID");
-
+        if (!token || !this.guard.exist(token))
+            throw new Error("Invalid Session ID");
         return request
     }
 
@@ -39,4 +39,5 @@ export default class $GuardMiddleware extends GuardMiddleware {
             return this.nextMiddleware.handle(request);
         else return request;
     }
+
 }
