@@ -5,11 +5,14 @@ import $AuthenticateControllerProvider from "./providers/AuthenticateController"
 import $ChannelProvider from "./providers/Channel";
 import $ControllerProvider from "./providers/Controller";
 import $FileSourceProvider from "./providers/FileSource";
+import $GuardProvider from "./providers/Guard";
+import $GuardMiddlewareProvider from "./providers/GuardMiddleware";
 import $JsonFileSourceProvider from "./providers/JsonFileSource";
 import $PasswordHashProvider from "./providers/PasswordHash";
 import $RouteProvider from "./providers/Route";
 import $RouterProvider from "./providers/Router";
 import $TypeOrmConnectionProvider from "./providers/TypeOrm";
+import $UsersSessionProvider from "./providers/UsersSession";
 import $WindowProvider from "./providers/window";
 
 export default class $App extends App {
@@ -30,6 +33,9 @@ export default class $App extends App {
         // ORM
         new $TypeOrmConnectionProvider(),
         // auth
+        new $UsersSessionProvider,
+        new $GuardProvider(),
+        new $GuardMiddlewareProvider(),
         new $PasswordHashProvider(),
         new $AuthenticateProvider(),
         new $AuthenticateControllerProvider(),
@@ -38,7 +44,7 @@ export default class $App extends App {
         new $JsonFileSourceProvider(),
     ];
 
-    
+
     public onReady(callback: CallableFunction) {
         this.onReadyCallback = callback;
     }

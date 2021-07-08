@@ -2,6 +2,7 @@ import { getManager } from 'typeorm';
 import { Container } from 'typescript-ioc';
 import App from './contract/App';
 import AuthenticateController from './contract/Auth/AuthenticateController';
+import GuardMiddleware from './contract/Auth/GuardMiddleware';
 import Channel from './contract/Channel';
 import Controller from './contract/Controller';
 import Router from './contract/Router';
@@ -39,6 +40,12 @@ app.onReady(async () => {
         method: "register",
     });
     registerRoute.setMatches(request => request.type === "register");
+    const logOutRoute = authRouter.addRoute({
+        controller:authenticateController,
+        method: "logout",
+    });
+    logOutRoute.setMatches(request => request.type === "logout");
+    logOutRoute.setMiddleware(Container.get(GuardMiddleware))
     const authChannel = Container.get(Channel);
     authChannel.setName("auth")
     authChannel.setRouter(authRouter);
