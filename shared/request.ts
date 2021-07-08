@@ -29,9 +29,7 @@ export interface loginRequest extends Request {
 export interface logoutRequest extends Request {
     type: "logout";
     token: string;
-    data: {
-        token: string;
-    }
+    data: {}
 }
 
 export type AuthRequest = registerRequest | loginRequest | logoutRequest;
