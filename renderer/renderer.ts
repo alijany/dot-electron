@@ -29,15 +29,15 @@ const logout: AuthRequest = { type: 'logout', token: '', data: {} }
 
 
 const test = async () => {
-    // let [e, res] = await channel.sendAsync(request);
-    // console.log(res);
+    let [e, res] = await channel.sendAsync(request);
+    console.log(res);
 
-    let [e, res] = await authChannel.sendAsync(login);
+     [e, res] = await authChannel.sendAsync(login);
     console.log(res);
 
     logout.token = request.token = res.data.token;
-    // [e, res] = await channel.sendAsync(request);
-    // console.log(res);
+    [e, res] = await channel.sendAsync(request);
+    console.log(res);
 
     [e, res] = await authChannel.sendAsync(logout);
     console.log(res);
