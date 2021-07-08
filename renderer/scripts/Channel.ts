@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { IpcRendererEvent } from "electron/main";
 import { Request } from "../../shared/request";
+import { Response } from "../../shared/response";
 
 contextBridge.exposeInMainWorld("ipcRenderer", ipcRenderer);
 
