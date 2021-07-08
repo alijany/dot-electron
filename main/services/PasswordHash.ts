@@ -4,23 +4,25 @@ import { promisify } from 'util';
 
 export default class $PasswordHash extends PasswordHash {
 
-    private keyLength = 100;
+    private keyLength = 64;
+
+
+    private saltLength = 16;
 
 
     public async hash(password: string) {
-        const $scrypt = promisify<string, Buffer, number, Buffer>(scrypt)
-        const salt = randomBytes(16);
-        const derivedKey = await $scrypt(password, salt, this.keyLength)
-        return Buffer.concat([salt, derivedKey]).toString();
+        const $scrypt = promisify<string, string, number, Buffer>(scrypt)
+        const salt = randomBytes(this.saltLength).toString("binary");
+        const derivedKey = await $scrypt(password, salt, this.keyLength);
+        return salt + derivedKey.toString('binary');
     }
 
 
     public async verify(password: string, hash: string) {
-        const $scrypt = promisify<string, Buffer, number, Buffer>(scrypt);
-        const stringBuffer = Buffer.from(hash, 'hex')
-        const salt = stringBuffer.slice(0, 16);
-        const encrypted = stringBuffer.slice(16)
-        const derivedKey = await $scrypt(password, salt, 100)
+        const $scrypt = promisify<string, string, number, Buffer>(scrypt);
+        const salt = hash.slice(0, this.saltLength);
+        const encrypted = Buffer.from(hash.slice(this.saltLength), "binary");
+        const derivedKey = await $scrypt(password, salt, this.keyLength);
         return timingSafeEqual(encrypted, derivedKey)
     }
 }
