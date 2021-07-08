@@ -14,6 +14,11 @@ export default class $Guard extends Guard {
     }
 
 
+    get(token: string) {
+        return this.session.get(token, undefined)
+    }
+
+
     getUsers(): User[] {
         return Object.values(this.session.all())
     }
