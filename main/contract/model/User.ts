@@ -1,6 +1,7 @@
 import { BaseEntity } from "typeorm";
 import Authenticatable from "../Auth/Authenticatable";
 import Authorizable from "../Auth/Authorizable";
+import Privilege from "./Privilege";
 
 export default abstract class User extends BaseEntity
     implements Authorizable, Authenticatable {
@@ -15,7 +16,9 @@ export default abstract class User extends BaseEntity
 
     abstract username: string;
 
-    abstract can(privilege:any): Promise<boolean>;
+    abstract has(privilege: Privilege): Promise<boolean>;
+
+    abstract getPrivileges(): Promise<Privilege[]>
 
     abstract getToken(): Promise<string>;
 

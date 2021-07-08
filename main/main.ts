@@ -66,7 +66,7 @@ app.onReady(async () => {
     const user = await entityManager.findOne($User, 1, { relations: ["privileges"] });
     const privilege = await entityManager.findOne($Privilege);
     if (privilege)
-        console.log(user?.can(privilege));
+        console.log(user?.has(privilege));
 });
 
 app.boot();

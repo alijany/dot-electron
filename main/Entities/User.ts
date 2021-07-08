@@ -27,7 +27,7 @@ export default class $User extends User {
     @JoinTable()
     privileges?: $Privilege[];
 
-    async can($privilege: $Privilege) {
+    async has($privilege: $Privilege) {
         const can = this.privileges?.find(privilege =>
             privilege.name == $privilege.name
         )
@@ -37,7 +37,7 @@ export default class $User extends User {
     async getPrivileges() {
         const thisUser = await getRepository($User)
             .findOne(this.id, { relations: ['privileges'] })
-        return this.privileges = thisUser?.privileges
+        return this.privileges = thisUser?.privileges || []
     }
 
     getToken(): Promise<string> {

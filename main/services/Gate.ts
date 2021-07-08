@@ -21,8 +21,9 @@ export default class $Gate extends Gate {
 
 
     async authorize(user: User, ...params: any[]) {
-        for (const privilege in this.privileges) {
-            if (await !user.can(privilege)) return false;
+        await user.getPrivileges()
+        for (const privilege of this.privileges) {
+            if (await !user.has(privilege)) return false;
         }
         return true;
     }

@@ -1,5 +1,9 @@
+import Privilege from "../model/Privilege";
+
 export default interface Authorizable {
 
-    can(...params: any[]): Promise<boolean>;
+    has(...params: any[]): Promise<boolean>;
+
+    getPrivileges(): Promise<Privilege[]>
 
 }
