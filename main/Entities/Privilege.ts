@@ -1,9 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import Privilege from "../contract/model/Privilege";
 
-@Entity()
+@Entity({ name: "privilege" })
 export default class $Privilege extends Privilege {
-    @PrimaryColumn()
+
+    @PrimaryGeneratedColumn()
+    id!: number;
+
+    @Column({ unique: true })
     name!: string;
 
     @Column({ default: 'default' })

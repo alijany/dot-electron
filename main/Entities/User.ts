@@ -2,7 +2,7 @@ import { Column, Entity, getRepository, JoinTable, ManyToMany, PrimaryGeneratedC
 import User from "../contract/model/User";
 import $Privilege from "./Privilege";
 
-@Entity()
+@Entity({ name: "user" })
 export default class $User extends User {
 
     @PrimaryGeneratedColumn()
