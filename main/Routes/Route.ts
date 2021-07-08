@@ -15,7 +15,12 @@ export default class $Route<Req, Res> extends Route<Req, Res> {
     protected middleware?: Middleware<Req>;
 
 
-    public setAction(action: RouteAction<Req,Res>): void {
+    public setMiddleware(middleware: Middleware<Req>) {
+        return this.middleware = middleware;
+    }
+
+
+    public setAction(action: RouteAction<Req, Res>): void {
         this.action = action;
     }
 
