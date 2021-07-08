@@ -1,13 +1,13 @@
 import { AuthRequest, Request } from '../shared/request';
-import './index.css'
-
+import './index.css';
 import { Channel } from './scripts/Channel';
+
 declare const channel: Channel<Request>;
-channel.send({ type: 'add', data: {} }, (event, response) => {
-    console.log(response);
-});
 
 declare const authChannel: Channel<AuthRequest>;
+
+
+const request: Request = { type: 'add', token: "", data: {} }
 
 const register: AuthRequest = {
     type: 'register', data: {
@@ -28,10 +28,24 @@ const login: AuthRequest = {
 const logout: AuthRequest = { type: 'logout', token: '', data: {} }
 
 
-authChannel.send(login, (event, response) => {
-    console.log(response);
-    logout.token = response.data.token;
-    authChannel.send(logout, (event, response) => {
-        console.log(response);
-    });
-});
+const test = async () => {
+    // let [e, res] = await channel.sendAsync(request);
+    // console.log(res);
+
+    let [e, res] = await authChannel.sendAsync(login);
+    console.log(res);
+
+    logout.token = request.token = res.data.token;
+    // [e, res] = await channel.sendAsync(request);
+    // console.log(res);
+
+    [e, res] = await authChannel.sendAsync(logout);
+    console.log(res);
+
+    debugger;
+
+    [e, res] = await channel.sendAsync(request);
+    console.log(res);
+}
+
+test()

@@ -10,6 +10,8 @@ export interface Channel<Req> {
         request: Req,
         onResponse: (event: IpcRendererEvent, response: Response) => void
     ): void;
+
+    sendAsync(request: Req): Promise<[Electron.IpcRendererEvent, Response]>
 }
 
 export default class $Channel<Req extends Request> implements Channel<Req> {
@@ -39,6 +41,14 @@ export default class $Channel<Req extends Request> implements Channel<Req> {
 
         this.ipcRenderer.once(request.responseChannel, onResponse);
         this.ipcRenderer.send(this.name, request);
+    };
+
+    sendAsync = async (request: Req) => {
+        return new Promise<[IpcRendererEvent, Response]>((resolve, reject) => {
+            this.send(request, (e, r) => {
+                resolve([e, r])
+            })
+        })
     };
 }
 
