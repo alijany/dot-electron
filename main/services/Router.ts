@@ -12,7 +12,7 @@ export default class $Router<Req, Res> extends Router<Req, Res> {
 
 
     public setMiddleware(middleware: Middleware<Req>) {
-        this.middleware = middleware
+        return this.middleware = middleware
     }
 
 
