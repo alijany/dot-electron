@@ -1,3 +1,4 @@
+import { Request } from "../../shared/request";
 import Gate from "../contract/Auth/Gate";
 import User from "../contract/model/User";
 import Privilege from "../Entities/Privilege";
@@ -20,7 +21,8 @@ export default class $Gate extends Gate {
     }
 
 
-    async authorize(user: User, ...params: any[]) {
+    async authorize(user?: User, request?: Request) {
+        if (!user) return false;
         await user.getPrivileges()
         for (const privilege of this.privileges) {
             if (await !user.has(privilege)) return false;
@@ -30,7 +32,7 @@ export default class $Gate extends Gate {
 
 
     getPrivileges(): Privilege[] {
-       return this.privileges;
+        return this.privileges;
     }
-    
+
 }

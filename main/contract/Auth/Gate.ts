@@ -10,7 +10,7 @@ export default abstract class Gate {
     abstract define(privilege: Privilege): void;
 
     // Determine if privileges should be granted for user.
-    abstract authorize(user: User, ...params: any[]): Promise<boolean>;
+    abstract authorize(user?: User, ...params: any[]): Promise<boolean>;
 
     // Get all of the defined privileges.
     abstract getPrivileges(): Privilege[];
