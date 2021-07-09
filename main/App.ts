@@ -1,5 +1,7 @@
 import { app } from "electron";
+import { Container } from "typescript-ioc";
 import App from "./contract/App";
+import WindowManager from "./contract/window";
 import $AuthenticateProvider from "./providers/Authenticate";
 import $AuthenticateControllerProvider from "./providers/AuthenticateController";
 import $ChannelProvider from "./providers/Channel";
@@ -59,7 +61,8 @@ export default class $App extends App {
     private async onElectronReady() {
         await this.bootServiceProviders();
         if (this.onReadyCallback)
-            this.onReadyCallback()
+            this.onReadyCallback();
+        Container.get(WindowManager)
     }
 
 

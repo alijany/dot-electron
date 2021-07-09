@@ -15,7 +15,6 @@ import './ioc';
 
 const app = Container.get(App);
 
-// TODO run window after ready
 app.onReady(async () => {
     const authenticateController = Container.get(AuthenticateController);
     const authRouter = Container.get(Router);
@@ -69,11 +68,9 @@ app.onReady(async () => {
     fileSource.setPath('./test.txt')
     const jsonFile = Container.get(JsonFileSourceDecorator);
     jsonFile.setDataSource(fileSource);
-    async function test() {
-        await jsonFile.write({ x: "hello" })
-        console.log((await jsonFile.read()).x);
-    }
-    test();
+    await jsonFile.write({ x: "hello" })
+    console.log((await jsonFile.read()).x);
+
 });
 
 app.boot();

@@ -18,6 +18,6 @@ export default class $WindowProvider extends ServiceProvider {
     };
 
     boot() {
-        Container.get(WindowManager)
+        // Container.get(WindowManager)
     };
 }
