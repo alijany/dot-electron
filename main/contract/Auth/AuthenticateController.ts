@@ -6,4 +6,6 @@ export default abstract class AuthenticateController<Request, Response>
     abstract register(request: Request): Promise<Response>;
 
     abstract login(request: Request): Promise<Response>;
+
+    abstract logout(request: Request): Promise<Response>;
 }
