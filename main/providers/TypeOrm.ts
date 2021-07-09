@@ -3,26 +3,17 @@ import { Container } from "typescript-ioc";
 import ServiceProvider from "../contract/ServiceProvider";
 import $Privilege from "../Entities/Privilege";
 import $User from "../Entities/User";
+const config = require('../../config/typeorm.js') 
 
 
 export default class $TypeOrmConnectionProvider extends ServiceProvider {
 
     async register() {
-        // TODO move to config 
-        const connection = await createConnection({
-            type: "mysql",
-            host: "localhost",
-            port: 3306,
-            username: "alijany",
-            password: "Gr33nR0z",
-            database: "electron",
-            entities: [
-                $Privilege,
-                $User // TODO use container
-            ],
-            synchronize: true,
-            logging: false
-        });
+        config.entities = [
+            $Privilege,
+            $User // TODO use container
+        ];
+        const connection = await createConnection(config);
 
         Container.bind(Connection).factory(() => connection);
     };
