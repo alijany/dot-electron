@@ -12,10 +12,13 @@ export class $Channel<Req extends Request, Res extends Response> extends Channel
         this.handle = this.handle.bind(this)
     }
 
-    name!: string;
+    private name!: string;
 
 
-    router?: Router<Req, Response>;
+    private router?: Router<Req, Response>;
+
+
+    private middleware!: Middleware<Req>;
 
 
     public setName(name: string): void {
@@ -28,12 +31,10 @@ export class $Channel<Req extends Request, Res extends Response> extends Channel
     }
 
 
-    middleware!: Middleware<Req>;
-
-
     public register(): void {
         ipcMain.on(this.name, this.handle);
     }
+
 
     public unregister(): void {
         ipcMain.off(this.name, this.handle);

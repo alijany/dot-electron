@@ -7,8 +7,12 @@ export default class $UsersSession extends UsersSession {
     private data: Record<string, User> = {}
 
 
-    private createKey(){
-        return randomBytes(16).toString("binary")
+    private createKey() {
+        let key: string;
+        do {
+            key = randomBytes(16).toString("binary");
+        } while (this.has(key));
+        return key
     }
 
     public all() {
@@ -22,8 +26,8 @@ export default class $UsersSession extends UsersSession {
 
 
     public get(key: string, $default: User) {
-       if (!this.has(key)) return $default;
-       else return this.data[key]
+        if (!this.has(key)) return $default;
+        else return this.data[key]
     }
 
 
@@ -52,6 +56,6 @@ export default class $UsersSession extends UsersSession {
     public save(): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    
+
 
 }

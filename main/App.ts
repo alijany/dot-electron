@@ -21,8 +21,6 @@ import $WindowProvider from "./providers/window";
 
 export default class $App extends App {
 
-    protected isBootstrapped = false;
-
     protected onReadyCallback?: CallableFunction;
 
 
@@ -101,7 +99,6 @@ export default class $App extends App {
         for (const provider of this.providers) {
             await provider.boot();
         };
-        this.isBootstrapped = true;
     };
 }
 

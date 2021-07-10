@@ -23,10 +23,10 @@ export default class $WindowManager extends WindowManager {
 
   constructor(
     config: Partial<Config> = {},
-    browserConfig: Partial<WebPreferences> = {}
+    webPreferences: Partial<WebPreferences> = {}
   ) {
     super();
-    this.mergeConfig(config, browserConfig);
+    this.mergeConfig(config, webPreferences);
     this.createWindow();
     this.loadWindow();
     this.registerHandlers();
@@ -34,8 +34,8 @@ export default class $WindowManager extends WindowManager {
 
 
   private mergeConfig(
-    config: Partial<Config>,
-    webPreferences: WebPreferences
+    config: Partial<Config> = {},
+    webPreferences: WebPreferences = {}
   ) {
     this.config = { ...this.config, ...config };
     this.webPreferences = { ...this.webPreferences, ...webPreferences };

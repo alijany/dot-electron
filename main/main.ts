@@ -70,7 +70,6 @@ app.onReady(async () => {
     jsonFile.setDataSource(fileSource);
     await jsonFile.write({ x: "hello" })
     console.log((await jsonFile.read()).x);
-
 });
 
 app.boot();
